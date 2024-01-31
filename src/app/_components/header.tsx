@@ -5,13 +5,20 @@ import { MenuIcon } from 'lucide-react';
 
 export default function Header() {
   return (
-    <Card>
-      <CardContent className='py-8 px-5 flex items-center justify-between mt'>
-        <Image src={'/logo.png'} alt='Logo Barbearia' height={22} width={120} />
-        <Button variant='outline' size='icon' className='size-8'>
-          <MenuIcon size={18} />
-        </Button>
-      </CardContent>
-    </Card>
+    <header>
+      <Card>
+        <CardContent className='py-8 px-5 flex items-center justify-between mt'>
+          <Image
+            src={'/logo.png'}
+            alt='Logo Barbearia'
+            height={22}
+            width={120}
+          />
+          <Button variant='outline' size='icon' className='size-8'>
+            <MenuIcon size={18} />
+          </Button>
+        </CardContent>
+      </Card>
+    </header>
   );
 }

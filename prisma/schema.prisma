@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
   // directUrl       = env("DIRECT_URL")
 }
 
@@ -30,6 +30,7 @@ model Service {
   id           String     @id @default(uuid())
   name         String
   price        Decimal    @db.Decimal(10, 2)
+  imageUrl     String
   barbershopId String
   barbershop   Barbershop @relation(fields: [barbershopId], references: [id])
   description  String
