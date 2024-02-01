@@ -1,4 +1,5 @@
 import { db } from '@/app/_lib/prisma';
+import BarbershopInfo from './_components/barbershop-info';
 
 interface BarbershopDetailsProps {
   params: {
@@ -9,7 +10,6 @@ interface BarbershopDetailsProps {
 export default async function BarbershopDetailsPage({
   params,
 }: BarbershopDetailsProps) {
-  
   // invalid id, redirect to home page
   if (!params.id) {
     return null;
@@ -25,5 +25,5 @@ export default async function BarbershopDetailsPage({
     return null;
   }
 
-  return <h1>{barbershop?.name}</h1>;
+  return <BarbershopInfo barbershop={barbershop}/>;
 }
