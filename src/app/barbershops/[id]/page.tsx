@@ -16,7 +16,7 @@ export default async function BarbershopDetailsPage({
     return null;
   }
 
-  const barbershop = await db.barbershop.findUnique({
+  let barbershop = await db.barbershop.findUnique({
     where: {
       id: params.id,
     },
@@ -24,6 +24,9 @@ export default async function BarbershopDetailsPage({
       services: true, // fetch associated data in Services table
     },
   });
+
+  // convert to plain Object
+  barbershop = JSON.parse(JSON.stringify(barbershop))
 
   if (!barbershop) {
     return null;
