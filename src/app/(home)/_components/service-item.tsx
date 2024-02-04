@@ -3,6 +3,8 @@
 import { Button } from '@/app/_components/ui/button';
 import { Calendar } from '@/app/_components/ui/calendar';
 import { Card, CardContent } from '@/app/_components/ui/card';
+import ServiceDetails from '@/app/_components/ui/service-details';
+import ServiceDetail from '@/app/_components/ui/service-details';
 import {
   Sheet,
   SheetContent,
@@ -36,50 +38,48 @@ export default function ServiceItem({
   service,
   isAuthenticated,
 }: ServiceItemProps) {
-  const router = useRouter()
+  const router = useRouter();
   const { data } = useSession();
   const [date, setDate] = useState<Date | undefined>();
   const [hour, setHour] = useState<String | undefined>();
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const [sheetIsOpen, setSheetIsOpen] = useState(false);
-  const [dayBookings, setDayBookings] = useState<Booking[]>([])
-
+  const [dayBookings, setDayBookings] = useState<Booking[]>([]);
 
   useEffect(() => {
     // useEffect async functions must be written and called inside block code
     async function refreshAvailableHours() {
-      if(!date) {
-        return
+      if (!date) {
+        return;
       }
-      const _dayBookings = await getDayBookings(barbershop.id, date)
-      setDayBookings(_dayBookings)
+      const _dayBookings = await getDayBookings(barbershop.id, date);
+      setDayBookings(_dayBookings);
     }
 
-    refreshAvailableHours()
-  }, [date, barbershop.id])
+    refreshAvailableHours();
+  }, [date, barbershop.id]);
 
   const timeList = useMemo(() => {
-    if(!date) {
-      return []
+    if (!date) {
+      return [];
     }
 
     // filter only available hours at given day
-    return generateDayTimeList(date).filter(time => {
-      const timeHour = Number(time.split(':')[0])
-      const timeMinutes = Number(time.split(':')[1])
+    return generateDayTimeList(date).filter((time) => {
+      const timeHour = Number(time.split(':')[0]);
+      const timeMinutes = Number(time.split(':')[1]);
 
-      const booking = dayBookings.find(b => {
-        const bHour = b.date.getHours()
-        const bMinutes = b.date.getMinutes()
-        return bHour === timeHour && bMinutes === timeMinutes
-      })
+      const booking = dayBookings.find((b) => {
+        const bHour = b.date.getHours();
+        const bMinutes = b.date.getMinutes();
+        return bHour === timeHour && bMinutes === timeMinutes;
+      });
 
-      if(!booking) {
-        return true
+      if (!booking) {
+        return true;
       }
-      return false
-    })
-
+      return false;
+    });
   }, [date, dayBookings]);
 
   function handleDateClick(date: Date | undefined) {
@@ -118,8 +118,8 @@ export default function ServiceItem({
       });
 
       setSheetIsOpen(false);
-      setHour(undefined)
-      setDate(undefined)
+      setHour(undefined);
+      setDate(undefined);
 
       toast('Reserva realizada com sucesso!', {
         description: format(parsedDate, `'Para' dd 'de' MMMM 'às' HH':'mm'.'`, {
@@ -136,8 +136,6 @@ export default function ServiceItem({
       setIsSubmitLoading(false);
     }
   }
-
-
 
   return (
     <Card>
@@ -223,43 +221,12 @@ export default function ServiceItem({
                   )}
 
                   <div className='py-6 px-5 border-t border-solid border-secondary'>
-                    <Card>
-                      <CardContent className='flex flex-col p-3 gap-3'>
-                        {/* Service type and price */}
-                        <div className='flex justify-between items-center'>
-                          <h2 className='font-bold'>{service.name}</h2>
-                          <h3 className='font-bold text-sm'>
-                            {formatToReal(service.price)}
-                          </h3>
-                        </div>
-
-                        {/* Barbershop name */}
-                        <div className='flex justify-between items-center'>
-                          <h3 className='text-gray-400 text-sm'>Barbearia</h3>
-                          <h4 className='text-sm'>{barbershop.name}</h4>
-                        </div>
-
-                        {/* Scheduled date */}
-                        {date && (
-                          <div className='flex justify-between items-center'>
-                            <h3 className='text-gray-400 text-sm'>Data</h3>
-                            <h4 className='text-sm'>
-                              {format(date, `dd 'de' MMMM`, {
-                                locale: ptBR,
-                              })}
-                            </h4>
-                          </div>
-                        )}
-
-                        {/* Scheduled hour */}
-                        {hour && (
-                          <div className='flex justify-between items-center'>
-                            <h3 className='text-gray-400 text-sm'>Horário</h3>
-                            <h4 className='text-sm'>{hour}</h4>
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
+                    <ServiceDetails
+                      barbershop={barbershop}
+                      service={service}
+                      date={date}
+                      hour={hour}
+                    />
                   </div>
 
                   <SheetFooter className='px-5'>
