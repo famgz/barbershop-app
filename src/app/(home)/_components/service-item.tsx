@@ -12,16 +12,17 @@ import {
   SheetTrigger,
 } from '@/app/_components/ui/sheet';
 import { formatToReal } from '@/app/_lib/utils';
+import { getDayBookings } from '@/app/barbershops/[id]/_actions/get-day-bookings';
 import { saveBooking } from '@/app/barbershops/[id]/_actions/save-booking';
 import { generateDayTimeList } from '@/app/barbershops/[id]/_helpers/hours';
-import { Barbershop, Service } from '@prisma/client';
+import { Barbershop, Booking, Service } from '@prisma/client';
 import { format, setHours, setMinutes } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Loader2 } from 'lucide-react';
 import { signIn, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
 interface ServiceItemProps {
@@ -41,12 +42,45 @@ export default function ServiceItem({
   const [hour, setHour] = useState<String | undefined>();
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const [sheetIsOpen, setSheetIsOpen] = useState(false);
+  const [dayBookings, setDayBookings] = useState<Booking[]>([])
 
-  console.log({ data });
+
+  useEffect(() => {
+    if(!date) {
+      return
+    }
+
+    async function refreshAvailableHours() {
+      const _dayBookings = await getDayBookings(barbershop.id, date)
+      setDayBookings(_dayBookings)
+    }
+
+    refreshAvailableHours()
+  }, [date, barbershop.id])
 
   const timeList = useMemo(() => {
-    return date ? generateDayTimeList(date) : [];
-  }, [date]);
+    if(!date) {
+      return []
+    }
+
+    // filter only available hours at given day
+    return generateDayTimeList(date).filter(time => {
+      const timeHour = Number(time.split(':')[0])
+      const timeMinutes = Number(time.split(':')[1])
+
+      const booking = dayBookings.find(b => {
+        const bHour = b.date.getHours()
+        const bMinutes = b.date.getMinutes()
+        return bHour === timeHour && bMinutes === timeMinutes
+      })
+
+      if(!booking) {
+        return true
+      }
+      return false
+    })
+
+  }, [date, dayBookings]);
 
   function handleDateClick(date: Date | undefined) {
     setDate(date);
@@ -102,6 +136,8 @@ export default function ServiceItem({
       setIsSubmitLoading(false);
     }
   }
+
+
 
   return (
     <Card>
