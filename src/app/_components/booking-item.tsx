@@ -22,6 +22,17 @@ import {
   SheetTitle,
   SheetTrigger,
 } from './ui/sheet';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from './ui/alert-dialog';
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
@@ -143,17 +154,42 @@ export default function BookingItem({ booking }: BookingItemProps) {
             </Button>
           </SheetClose>
           {!isBookingFinished && (
-            <Button
-              onClick={handleCancelBookingClick}
-              disabled={isBookingFinished || isDeleteLoading}
-              variant='destructive'
-              className='w-full'
-            >
-              {isDeleteLoading && (
-                <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-              )}
-              Cancelar Reserva
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger>
+                <Button
+                  disabled={isBookingFinished || isDeleteLoading}
+                  variant='destructive'
+                  className='w-full'
+                >
+                  {isDeleteLoading && (
+                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                  )}
+                  Cancelar Reserva
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent className='w-[90%]'>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Cancelar Reserva</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Tem certeza que deseja cancelar a reserva?
+                    <br />
+                    (Esta ação não poderá ser desfeita)
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter className='flex-row gap-3'>
+                  <AlertDialogCancel className='w-full mt-0'>
+                    Voltar
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                    disabled={isDeleteLoading}
+                    onClick={handleCancelBookingClick}
+                    className='w-full'
+                  >
+                    Confirmar
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           )}
         </SheetFooter>
       </SheetContent>

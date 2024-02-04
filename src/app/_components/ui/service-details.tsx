@@ -7,8 +7,8 @@ import { ptBR } from 'date-fns/locale';
 interface ServiceDetailProps {
   service: Service;
   barbershop: Barbershop;
-  date: Date;
-  hour: string;
+  date: Date | undefined;
+  hour: String | undefined;
 }
 
 export default function ServiceDetails({

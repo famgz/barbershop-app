@@ -4,7 +4,6 @@ import { Button } from '@/app/_components/ui/button';
 import { Calendar } from '@/app/_components/ui/calendar';
 import { Card, CardContent } from '@/app/_components/ui/card';
 import ServiceDetails from '@/app/_components/ui/service-details';
-import ServiceDetail from '@/app/_components/ui/service-details';
 import {
   Sheet,
   SheetContent,
