@@ -1,4 +1,4 @@
-import { Barbershop } from '@prisma/client';
+import { Barbershop, Booking } from '@prisma/client';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import BookingItem from '../_components/booking-item';
@@ -6,9 +6,31 @@ import { db } from '../_lib/prisma';
 import BarbershopItem from './_components/barbershop-item';
 import Search from './_components/search';
 import Header from '../_components/header';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../api/auth/[...nextauth]/route';
+import { sortAndFilterBookings } from '../_lib/utils';
 
 export default async function Home() {
-  const barbershops = await db.barbershop.findMany({});
+  const session = await getServerSession(authOptions);
+
+  // parallel queries
+  const [barbershops, bookings] = await Promise.all([
+    db.barbershop.findMany({}),
+
+    session?.user
+      ? await db.booking.findMany({
+          where: {
+            userId: (session.user as any).id,
+          },
+          include: {
+            service: true,
+            barbershop: true,
+          },
+        })
+      : [],
+  ]);
+
+  const sortedBookings = sortAndFilterBookings(bookings);
 
   return (
     <div>
@@ -25,16 +47,16 @@ export default async function Home() {
       </div>
 
       <div className='mt-6'>
-        <h2 className='section-title px-5'>
-          Agendamentos
-        </h2>
-        {/* <BookingItem /> */}
+        <h2 className='section-title px-5'>Agendamentos</h2>
+        <div className='flex gap-3  px-5 overflow-x-auto hide-scrollbar'>
+          {sortedBookings.confirmed.map((b: Booking) => (
+            <BookingItem key={b.id} booking={b} />
+          ))}
+        </div>
       </div>
 
       <div className='mt-6'>
-        <h2 className='section-title px-5'>
-          Recomendados
-        </h2>
+        <h2 className='section-title px-5'>Recomendados</h2>
         <div className='flex px-5 gap-2 overflow-x-auto hide-scrollbar'>
           {barbershops.map((b: Barbershop) => (
             <BarbershopItem key={b.id} barbershop={b} />
@@ -43,9 +65,7 @@ export default async function Home() {
       </div>
 
       <div className='mt-6 mb-[4.5rem]'>
-        <h2 className='section-title px-5'>
-          Populares
-        </h2>
+        <h2 className='section-title px-5'>Populares</h2>
         <div className='flex px-5 gap-2 overflow-x-auto hide-scrollbar'>
           {barbershops.map((b: Barbershop) => (
             <BarbershopItem key={b.id} barbershop={b} />

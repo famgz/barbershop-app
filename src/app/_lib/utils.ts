@@ -18,7 +18,7 @@ export function sortAndFilterBookings(bookings: Booking[]) {
   let confirmedBookings: Booking[] = [];
   let finishedBookings: Booking[] = [];
 
-  if (bookings) {
+  if (bookings?.length) {
     const sortedBookings = bookings.sort(
       (a: Booking, b: Booking) => a.date - b.date
     );
