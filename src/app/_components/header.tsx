@@ -13,10 +13,10 @@ export default function Header() {
         <CardContent className='py-4 px-5 flex items-center justify-between mt'>
           <Link href={'/'}>
             <Image
-              src={'/logo.png'}
+              src={'/logo.svg'}
               alt='Logo Barbearia'
               height={22}
-              width={120}
+              width={180}
             />
           </Link>
 
