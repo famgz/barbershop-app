@@ -36,8 +36,9 @@ export default async function Home() {
     <div>
       <Header />
       <div className='px-5 pt-5'>
-        <h2 className='text-xl font-bold'>Olá, {session?.user?.name || 'Visitante'}</h2>
-        <p className='capitalize text-sm'>
+        <h2 className='text-xl font-bold'>Olá, {session?.user?.name?.split(' ')[0] || 'Visitante'}</h2>
+        <p>Vamos agendar um corte hoje?</p>
+        <p className='capitalize text-sm text-gray-300 mt-3'>
           {format(new Date(), `EEEE',' dd 'de' MMMM`, { locale: ptBR })}
         </p>
       </div>
