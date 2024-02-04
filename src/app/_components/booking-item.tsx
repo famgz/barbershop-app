@@ -27,7 +27,7 @@ export default function BookingItem({ booking }: BookingItemProps) {
           className='w-fit'>
             {isBookingFinished ? 'Finalizado': 'Confirmado'}
           </Badge>
-          <h2 className='font-bold'>{booking.service.name}</h2>
+          <h2 className='font-bold whitespace-nowrap'>{booking.service.name}</h2>
 
           <div className='flex items-center gap-2'>
             <Avatar className='size-6'>
@@ -35,7 +35,7 @@ export default function BookingItem({ booking }: BookingItemProps) {
               <AvatarFallback>A</AvatarFallback>
             </Avatar>
 
-            <h3 className='text-sm'>{booking.barbershop.name}</h3>
+            <h3 className='text-sm whitespace-nowrap'>{booking.barbershop.name}</h3>
           </div>
         </div>
 
