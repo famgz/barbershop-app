@@ -6,6 +6,7 @@ import BookingItem from '../_components/booking-item';
 import Header from '../_components/header';
 import { db } from '../_lib/prisma';
 import { authOptions } from '../api/auth/[...nextauth]/route';
+import { sortAndFilterBookings } from '../_lib/utils';
 
 export default async function BookingsPage() {
   const session = await getServerSession(authOptions);
@@ -24,15 +25,7 @@ export default async function BookingsPage() {
     },
   });
 
-  const sortedBookings = bookings.sort(
-    (a: Booking, b: Booking) => a.date - b.date
-  );
-  const confirmedBookings = sortedBookings.filter((b: Booking) =>
-    isFuture(b.date)
-  );
-  const finishedBookings = sortedBookings.filter((b: Booking) =>
-    isPast(b.date)
-  );
+  const sortedBookings = sortAndFilterBookings(bookings)
 
   return (
     <>
@@ -42,14 +35,14 @@ export default async function BookingsPage() {
 
         <h2 className='section-title mt-6 mb-3'>Confirmados</h2>
         <div className='flex flex-col gap-3'>
-          {confirmedBookings.map((b: Booking) => (
+          {sortedBookings.confirmed.map((b: Booking) => (
             <BookingItem key={b.id} booking={b} />
           ))}
         </div>
 
         <h2 className='section-title mt-6 mb-3'>Finalizados</h2>
         <div className='flex flex-col gap-3'>
-          {finishedBookings.map((b: Booking) => (
+          {sortedBookings.finished.map((b: Booking) => (
             <BookingItem key={b.id} booking={b} />
           ))}
         </div>
