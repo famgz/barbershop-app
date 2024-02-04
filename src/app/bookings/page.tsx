@@ -1,11 +1,10 @@
 import { Booking } from '@prisma/client';
-import { isFuture, isPast } from 'date-fns';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import BookingItem from '../_components/booking-item';
 import Header from '../_components/header';
+import { authOptions } from '../_lib/auth';
 import { db } from '../_lib/prisma';
-import { authOptions } from '../api/auth/[...nextauth]/route';
 import { sortAndFilterBookings } from '../_lib/utils';
 
 export default async function BookingsPage() {
@@ -32,7 +31,7 @@ export default async function BookingsPage() {
       <Header />
       <div className='px-5 py-6'>
         <h1 className='text-xl font-bold mb-6'>Agendamentos</h1>
-        
+
         {/* Confirmed bookings */}
         {sortedBookings.confirmed?.length > 0 && (
           <>

@@ -7,8 +7,8 @@ import BarbershopItem from './_components/barbershop-item';
 import Search from './_components/search';
 import Header from '../_components/header';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../api/auth/[...nextauth]/route';
 import { sortAndFilterBookings } from '../_lib/utils';
+import { authOptions } from '../_lib/auth';
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
