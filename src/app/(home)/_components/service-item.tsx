@@ -46,11 +46,11 @@ export default function ServiceItem({
 
 
   useEffect(() => {
-    if(!date) {
-      return
-    }
-
+    // useEffect async functions must be written and called inside block code
     async function refreshAvailableHours() {
+      if(!date) {
+        return
+      }
       const _dayBookings = await getDayBookings(barbershop.id, date)
       setDayBookings(_dayBookings)
     }

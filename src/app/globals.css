@@ -48,3 +48,7 @@
 .hide-scrollbar {
   @apply [&::-webkit-scrollbar]:hidden;
 }
+
+.section-title {
+  @apply text-xs uppercase text-gray-400 font-bold mb-3;
+}

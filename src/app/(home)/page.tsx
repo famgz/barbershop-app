@@ -24,15 +24,15 @@ export default async function Home() {
         <Search />
       </div>
 
-      <div className='px-5 mt-6'>
-        <h2 className='text-xs mb-3 uppercase text-gray-400 font-bold'>
+      <div className='mt-6'>
+        <h2 className='section-title px-5'>
           Agendamentos
         </h2>
-        <BookingItem />
+        {/* <BookingItem /> */}
       </div>
 
       <div className='mt-6'>
-        <h2 className='text-xs px-5 mb-3 uppercase text-gray-400 font-bold'>
+        <h2 className='section-title px-5'>
           Recomendados
         </h2>
         <div className='flex px-5 gap-2 overflow-x-auto hide-scrollbar'>
@@ -43,7 +43,7 @@ export default async function Home() {
       </div>
 
       <div className='mt-6 mb-[4.5rem]'>
-        <h2 className='text-xs px-5 mb-3 uppercase text-gray-400 font-bold'>
+        <h2 className='section-title px-5'>
           Populares
         </h2>
         <div className='flex px-5 gap-2 overflow-x-auto hide-scrollbar'>
