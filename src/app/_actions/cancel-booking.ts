@@ -10,5 +10,7 @@ export async function cancelBooking(bookingId: string) {
     },
   });
 
-  revalidatePath('/bookings') // remove page cache and update
+  // remove page cache and update
+  revalidatePath('/');
+  revalidatePath('/bookings');
 }
