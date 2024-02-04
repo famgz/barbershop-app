@@ -36,7 +36,7 @@ export default async function Home() {
     <div>
       <Header />
       <div className='px-5 pt-5'>
-        <h2 className='text-xl font-bold'>Ola, Aluno!</h2>
+        <h2 className='text-xl font-bold'>Olá, {session?.user?.name || 'Visitante'}</h2>
         <p className='capitalize text-sm'>
           {format(new Date(), `EEEE',' dd 'de' MMMM`, { locale: ptBR })}
         </p>
@@ -46,15 +46,19 @@ export default async function Home() {
         <Search />
       </div>
 
-      <div className='mt-6'>
-        <h2 className='section-title px-5'>Agendamentos</h2>
-        <div className='flex gap-3  px-5 overflow-x-auto hide-scrollbar'>
-          {sortedBookings.confirmed.map((b: Booking) => (
-            <BookingItem key={b.id} booking={b} />
-          ))}
+      {/* Confirmed bookings */}
+      {sortedBookings.confirmed?.length > 0 && (
+        <div className='mt-6'>
+          <h2 className='section-title px-5'>Agendamentos</h2>
+          <div className='flex gap-3  px-5 overflow-x-auto hide-scrollbar'>
+            {sortedBookings.confirmed.map((b: Booking) => (
+              <BookingItem key={b.id} booking={b} />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
+      {/* Recommended barbershops */}
       <div className='mt-6'>
         <h2 className='section-title px-5'>Recomendados</h2>
         <div className='flex px-5 gap-2 overflow-x-auto hide-scrollbar'>
@@ -64,6 +68,7 @@ export default async function Home() {
         </div>
       </div>
 
+      {/* Popular barbershops */}
       <div className='mt-6 mb-[4.5rem]'>
         <h2 className='section-title px-5'>Populares</h2>
         <div className='flex px-5 gap-2 overflow-x-auto hide-scrollbar'>
