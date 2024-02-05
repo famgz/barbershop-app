@@ -17,7 +17,7 @@ import { getDayBookings } from '@/app/barbershops/[id]/_actions/get-day-bookings
 import { saveBooking } from '@/app/barbershops/[id]/_actions/save-booking';
 import { generateDayTimeList } from '@/app/barbershops/[id]/_helpers/hours';
 import { Barbershop, Booking, Service } from '@prisma/client';
-import { format, setHours, setMinutes } from 'date-fns';
+import { addDays, format, setHours, setMinutes } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Loader2 } from 'lucide-react';
 import { signIn, useSession } from 'next-auth/react';
@@ -176,7 +176,7 @@ export default function ServiceItem({
                       selected={date}
                       onSelect={handleDateClick}
                       locale={ptBR}
-                      fromDate={new Date()} // prevent past day selection
+                      fromDate={addDays(new Date(), 1)} // prevent current and past days selection
                       styles={{
                         head_cell: {
                           width: '100%',
