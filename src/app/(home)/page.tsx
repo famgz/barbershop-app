@@ -14,7 +14,7 @@ export default async function Home() {
   const session = await getServerSession(authOptions);
 
   // parallel queries
-  const [barbershops, bookings] = await Promise.all([
+  let [barbershops, bookings] = await Promise.all([
     db.barbershop.findMany({}),
 
     session?.user
@@ -30,17 +30,20 @@ export default async function Home() {
       : [],
   ]);
 
+  barbershops = JSON.parse(JSON.stringify(barbershops))
+  bookings = JSON.parse(JSON.stringify(barbershops))
+
   const sortedBookings = sortAndFilterBookings(bookings);
 
   return (
     <div>
       <Header />
       <div className='px-5 pt-5'>
-        <h2 className='text-xl font-bold'>Olá, {session?.user?.name?.split(' ')[0] || 'Visitante'}</h2>
-        <p>Vamos agendar um corte hoje?</p>
-        <p className='capitalize text-sm text-gray-300 mt-3'>
+        <h2 className='text-xl font-bold'>Olá, {session?.user?.name?.split(' ')[0] || 'visitante'}</h2>
+        <p className='capitalize text-xs text-gray-300 mt-2'>
           {format(new Date(), `EEEE',' dd 'de' MMMM`, { locale: ptBR })}
         </p>
+        <p className='mt-3'>Vamos agendar um corte hoje?</p>
       </div>
 
       <div className='px-5 mt-6'>
@@ -52,8 +55,8 @@ export default async function Home() {
         <div className='mt-6'>
           <h2 className='section-title px-5'>Agendamentos</h2>
           <div className='flex px-5 gap-2 overflow-x-auto hide-scrollbar'>
-            {sortedBookings.confirmed.map((b: Booking) => (
-              <BookingItem key={b.id} booking={b} />
+            {sortedBookings.confirmed.map((bk: Booking) => (
+              <BookingItem key={bk.id} booking={bk} />
             ))}
           </div>
         </div>
@@ -63,8 +66,8 @@ export default async function Home() {
       <div className='mt-6'>
         <h2 className='section-title px-5'>Recomendados</h2>
         <div className='flex px-5 gap-2 overflow-x-auto hide-scrollbar'>
-          {barbershops.map((b: Barbershop) => (
-            <BarbershopItem key={b.id} barbershop={b} />
+          {barbershops.map((bs: Barbershop) => (
+            <BarbershopItem key={bs.id} barbershop={bs} />
           ))}
         </div>
       </div>
@@ -73,8 +76,8 @@ export default async function Home() {
       <div className='mt-6 mb-[4.5rem]'>
         <h2 className='section-title px-5'>Populares</h2>
         <div className='flex px-5 gap-2 overflow-x-auto hide-scrollbar'>
-          {barbershops.map((b: Barbershop) => (
-            <BarbershopItem key={b.id} barbershop={b} />
+          {barbershops.map((bs: Barbershop) => (
+            <BarbershopItem key={bs.id} barbershop={bs} />
           ))}
         </div>
       </div>
