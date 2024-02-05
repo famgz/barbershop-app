@@ -30,22 +30,27 @@ export default async function Home() {
       : [],
   ]);
 
-  barbershops = JSON.parse(JSON.stringify(barbershops))
-  bookings = JSON.parse(JSON.stringify(barbershops))
+  barbershops = JSON.parse(JSON.stringify(barbershops));
+  bookings = JSON.parse(JSON.stringify(barbershops));
 
   const sortedBookings = sortAndFilterBookings(bookings);
 
   return (
     <div>
       <Header />
+
+      {/* Hero */}
       <div className='px-5 pt-5'>
-        <h2 className='text-xl font-bold'>Olá, {session?.user?.name?.split(' ')[0] || 'visitante'}</h2>
+        <h2 className='text-xl font-bold'>
+          Olá, {session?.user?.name?.split(' ')[0] || 'visitante'}
+        </h2>
         <p className='capitalize text-xs text-gray-300 mt-2'>
           {format(new Date(), `EEEE',' dd 'de' MMMM`, { locale: ptBR })}
         </p>
         <p className='mt-3'>Vamos agendar um corte hoje?</p>
       </div>
 
+      {/* Search box */}
       <div className='px-5 mt-6'>
         <Search />
       </div>
@@ -76,9 +81,11 @@ export default async function Home() {
       <div className='mt-6 mb-[4.5rem]'>
         <h2 className='section-title px-5'>Populares</h2>
         <div className='flex px-5 gap-2 overflow-x-auto hide-scrollbar'>
-          {barbershops.map((bs: Barbershop) => (
-            <BarbershopItem key={bs.id} barbershop={bs} />
-          ))}
+          {barbershops
+            .sort(() => Math.random() - 0.5)
+            .map((bs: Barbershop) => (
+              <BarbershopItem key={bs.id} barbershop={bs} />
+            ))}
         </div>
       </div>
     </div>
