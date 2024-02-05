@@ -100,7 +100,7 @@ export default function BookingItem({ booking }: BookingItemProps) {
         </Card>
       </SheetTrigger>
 
-      <SheetContent className='py-0'>
+      <SheetContent className='py-0 overflow-y-auto hide-scrollbar'>
         <SheetHeader className='text-start py-6 border-b border-solid border-secondary'>
           <SheetTitle>Informacões da Reserva</SheetTitle>
         </SheetHeader>

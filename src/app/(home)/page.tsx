@@ -51,7 +51,7 @@ export default async function Home() {
       {sortedBookings.confirmed?.length > 0 && (
         <div className='mt-6'>
           <h2 className='section-title px-5'>Agendamentos</h2>
-          <div className='flex gap-3  px-5 overflow-x-auto hide-scrollbar'>
+          <div className='flex px-5 gap-2 overflow-x-auto hide-scrollbar'>
             {sortedBookings.confirmed.map((b: Booking) => (
               <BookingItem key={b.id} booking={b} />
             ))}

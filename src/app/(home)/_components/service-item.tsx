@@ -165,7 +165,7 @@ export default function ServiceItem({
                   </Button>
                 </SheetTrigger>
 
-                <SheetContent className='p-0'>
+                <SheetContent className='p-0 overflow-y-auto hide-scrollbar'>
                   <SheetHeader className='text-start px-5 py-6 border-b border-solid border-secondary'>
                     <SheetTitle>Fazer Reserva</SheetTitle>
                   </SheetHeader>
