@@ -29,7 +29,7 @@ export default async function BookingsPage() {
   return (
     <>
       <Header />
-      <div className='px-5 py-6'>
+      <div className='px-5 py-6 mb-auto'>
         <h1 className='text-xl font-bold mb-6'>Agendamentos</h1>
 
         {/* Confirmed bookings */}

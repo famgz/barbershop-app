@@ -41,7 +41,10 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground antialiased h-full;
+  }
+  html {
+    @apply h-full;
   }
 }
 

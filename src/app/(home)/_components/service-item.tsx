@@ -228,7 +228,7 @@ export default function ServiceItem({
                     />
                   </div>
 
-                  <SheetFooter className='px-5'>
+                  <SheetFooter className='px-5 pb-8'>
                     {/* Confirmation button */}
                     <Button
                       onClick={handleBookingSubmit}
