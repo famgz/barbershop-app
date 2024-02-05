@@ -19,6 +19,11 @@ export default function BarbershopItem({ barbershop }: BarbershopItemProps) {
     router.push('/barbershops/' + barbershop.id)
   }
 
+  // generate random decimal number between 3.0 and 5.0
+  function getRandomRating() {
+    return (Math.floor(Math.random() * 21) + 30) / 10
+  }
+
 
   return (
     <Card className='min-w-[167px] max-w-[167px] rounded-2xl'>
